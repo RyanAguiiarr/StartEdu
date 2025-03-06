@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Pressable, Button } from "react-native";
 import { colors } from "../../constants/Colors";
 import Imput from "../../components/inputs";
 import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { router } from "expo-router";
 
@@ -26,6 +27,8 @@ export default function Index() {
         dataNasci: dataNasci,
         cursoId: "436473d7-0f81-482d-9c5f-971df6949da0",
       });
+
+      await AsyncStorage.setItem("token", response.data.token);
 
       router.push("/lista");
 

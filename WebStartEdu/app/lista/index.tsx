@@ -1,21 +1,37 @@
 import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
 import { colors } from "../../constants/Colors";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Lista() {
   const [alunos, setAlunos] = useState([]); // Estado para armazenar a lista de alunos
+  const [seuToken, setSeuToken] = useState(""); // Estado para armazenar o token
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        if (token) {
+          console.log("Token recuperado:", token); // Adicione este log
+          setSeuToken(token);
+        }
+      } catch (error) {
+        console.error("Erro ao recuperar o token:", error);
+      }
+    };
+
+    fetchToken();
+  }, []);
 
   const handlePress = async () => {
     try {
       const params = "48fb4034-d33b-4609-b86b-375dcf99fa1c";
-      const seuToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6eyJlbWFpbCI6InRlc3RlNEBnbWFpbC5jb20ifSwiaWF0IjoxNzQxMTk1MDg4LCJleHAiOjE3NDE3OTk4ODh9.mLVZwohUe0JSuCiLVnjTyzIK2yhGW8_deEDiJxP_n9I"; // Substitua 'seuToken' pelo token real
       const response = await axios.get(
         `http://192.168.0.104:3000/lista/${params}`,
         {
           headers: {
-            Authorization: `Bearer ${seuToken}`, // Substitua 'seuToken' pelo token real
+            Authorization: `Bearer ${seuToken}`, // Usa o token armazenado
           },
         }
       );
@@ -28,8 +44,7 @@ export default function Lista() {
 
   const renderItem = ({ item }: { item: string }) => (
     <View style={styles.item}>
-      <Text style={styles.itemText}>{item}</Text>{" "}
-      {/* Renderizando o nome do aluno */}
+      <Text style={styles.itemText}>{item}</Text>
     </View>
   );
 
