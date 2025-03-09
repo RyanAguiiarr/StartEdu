@@ -31,8 +31,6 @@ async function main() {
       nome: "João Silva",
       cpf: "12345678901",
       email: "joao.silva@example.com",
-      senha: await hashPassword("123456"), // Exemplo de senha hash
-      token: "fakeTokenForNow",
       telefone: "987654321",
       dataNascimento: new Date("2000-01-01"),
       sexo: "M",
@@ -87,7 +85,6 @@ async function main() {
     data: {
       alunoId: aluno.id,
       imovelId: imovel.id,
-      chatId: null,
       mensagem: "Tenho interesse nesse apartamento.",
       dataInteresse: new Date(),
       status: "Em análise",

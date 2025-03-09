@@ -8,9 +8,9 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="cadastro/index" options={{ headerShown: false }} />
-        <Stack.Screen name="lista/index" options={{ headerShown: false }} />
-        <Stack.Screen name="nutrition/index" options={{ headerShown: false }} />
+        <Stack.Screen name="entrar" options={{ headerShown: false }} />
+        <Stack.Screen name="cadastro" options={{ headerShown: false }} />
+        <Stack.Screen name="lista" options={{ headerShown: false }} />
       </Stack>
     </QueryClientProvider>
   );

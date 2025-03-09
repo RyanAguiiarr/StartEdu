@@ -8,9 +8,9 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params
 
   try {
-    const alunos_de_imovel = await prisma.interesse.findMany({
+    const alunos_de_imovel = await prisma.alunoTurma.findMany({
       where: {
-        imovelId: id,
+        turmaId: id,
       },
     })
 

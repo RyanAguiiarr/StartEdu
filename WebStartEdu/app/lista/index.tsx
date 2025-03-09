@@ -26,7 +26,7 @@ export default function Lista() {
 
   const handlePress = async () => {
     try {
-      const params = "48fb4034-d33b-4609-b86b-375dcf99fa1c";
+      const params = "99624398-2eb6-4b54-aff2-0b0c99011848";
       const response = await axios.get(
         `http://192.168.0.104:3000/lista/${params}`,
         {
@@ -38,7 +38,11 @@ export default function Lista() {
       console.log("Resposta do servidor:", response.data);
       setAlunos(response.data.nome_alunos); // Atualiza o estado com a lista de alunos
     } catch (error) {
-      console.error("Erro ao enviar dados:", error);
+      if (axios.isAxiosError(error) && error.response) {
+        console.error("Erro ao enviar dados:", error.response.data.message);
+      } else {
+        console.error("Erro ao enviar dados:", error);
+      }
     }
   };
 

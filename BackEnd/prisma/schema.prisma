@@ -7,14 +7,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User_Aluno {
+  id       String  @id @default(uuid())
+  nome     String
+  email    String  @unique
+  senha    String
+  token    String
+  telefone String?
+  cpf      String?
+  tipo     String?
+}
+
+model User_Imobiliaria {
+  id       String  @id @default(uuid())
+  nome     String
+  email    String  @unique
+  senha    String
+  token    String
+  telefone String?
+  cnpj     String?
+  tipo     String?
+}
+
 
 model Aluno {
   id             String   @id @default(uuid())
   nome           String
   cpf            String   @unique
   email          String   @unique
-  senha          String
-  token         String? @db.Text
   telefone       String?
   dataNascimento DateTime?
   sexo           String?
@@ -23,7 +43,6 @@ model Aluno {
   turmas         AlunoTurma[]
   interesses     Interesse[]
   mensagens      Mensagem[]
-  chats          ChatParticipantes[]
 }
 
 model Curso {
@@ -90,7 +109,6 @@ model Imovel {
   imobiliaria   Imobiliaria @relation(fields: [imobiliariaId], references: [id])
   anuncios      Anuncio[]
   interesses    Interesse[]
-  chats         Chat[]
 }
 
 model Anuncio {
@@ -107,33 +125,22 @@ model Interesse {
   id         String   @id @default(uuid())
   alunoId    String
   imovelId   String
-  chatId     String?
   mensagem   String?
   dataInteresse DateTime
   status     String
   aluno      Aluno    @relation(fields: [alunoId], references: [id])
   imovel     Imovel   @relation(fields: [imovelId], references: [id])
-  chat       Chat?    @relation(fields: [chatId], references: [id])
+  chats      Chat[]
 }
 
 model Chat {
   id        String      @id @default(uuid())
-  imovelId  String
   status    String
-  imovel    Imovel      @relation(fields: [imovelId], references: [id])
+  intereseId String
+  interesses Interesse @relation(fields: [intereseId], references: [id])
   mensagens Mensagem[]
-  participantes ChatParticipantes[]
-
-  Interesse Interesse[]
 }
 
-model ChatParticipantes {
-  chatId  String
-  alunoId String
-  chat    Chat  @relation(fields: [chatId], references: [id])
-  aluno   Aluno @relation(fields: [alunoId], references: [id])
-  @@id([chatId, alunoId])
-}
 
 model Mensagem {
   id         String   @id @default(uuid())

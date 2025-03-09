@@ -8,25 +8,46 @@ import { router } from "expo-router";
 
 export default function Index() {
   const [nome, setNome] = useState("");
+  const [senha, setSenha] = useState("");
   const [email, setEmail] = useState("");
-  const [sexo, setSexo] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [dataNasci, setData] = useState("");
+  const [nomeLogin, setNomeLogin] = useState("");
+  const [senhaLogin, setSenhaLogin] = useState("");
 
   const handlePress = async () => {
     try {
-      const response = await axios.post("http://192.168.0.104:3000/cadastro", {
+      const response = await axios.post("http://192.168.0.104:3000/index", {
         email: email,
+        senha: senha,
         nome: nome,
-        sexo: sexo,
-        telefone: telefone,
-        cpf: cpf,
-        dataNasci: dataNasci,
-        cursoId: "0b6531b0-16c2-45cc-a08e-bd4bdfd55381",
       });
 
-      router.push("/lista");
+      await AsyncStorage.setItem("token", response.data.token);
+
+      router.push("/cadastro");
+
+      console.log("Resposta do servidor:", response.data);
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.error("Erro ao enviar dados:", error.response.data.message);
+      } else {
+        console.error("Erro ao enviar dados:", error);
+      }
+    }
+  };
+
+  const handlePressLogin = async () => {
+    try {
+      const response = await axios.post(
+        "http://192.168.0.104:3000/index/login",
+        {
+          email: nomeLogin,
+          senha: senhaLogin,
+        }
+      );
+
+      await AsyncStorage.setItem("token", response.data.token);
+
+      router.push("/cadastro");
 
       console.log("Resposta do servidor:", response.data);
     } catch (error) {
@@ -40,20 +61,31 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>CADASTRO ALUNO</Text>
+      <Text style={styles.title}>CADASTRO</Text>
 
       <Text style={styles.text}>realize seu cadastro</Text>
 
       <Imput label="nome" value={nome} onchangeText={setNome} />
       <Imput label="email" value={email} onchangeText={setEmail} />
-      <Imput label="sexo" value={sexo} onchangeText={setSexo} />
-      <Imput label="telefone" value={telefone} onchangeText={setTelefone} />
-      <Imput label="cpf" value={cpf} onchangeText={setCpf} />
-      <Imput label="data nascimento" value={dataNasci} onchangeText={setData} />
+      <Imput label="senha" value={senha} onchangeText={setSenha} />
 
       <Button
         onPress={handlePress}
         title="CADASTRAR"
+        color="green"
+        accessibilityLabel="Learn more about this purple button"
+      />
+
+      <Text style={styles.title}>LOGIN</Text>
+
+      <Text style={styles.text}>realize seu LOGIN</Text>
+
+      <Imput label="Email" value={nomeLogin} onchangeText={setNomeLogin} />
+      <Imput label="senha" value={senhaLogin} onchangeText={setSenhaLogin} />
+
+      <Button
+        onPress={handlePressLogin}
+        title="LOGAR"
         color="green"
         accessibilityLabel="Learn more about this purple button"
       />

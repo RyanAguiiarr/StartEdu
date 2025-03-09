@@ -6,13 +6,11 @@ export default function Index() {
     <View style={styles.container}>
       <Text style={styles.title}>Dieta</Text>
 
-      <Text style={styles.text}>
-        Sua dieta personalizada com inteligência artificial 🍴
-      </Text>
+      <Text style={styles.text}>StartEdu</Text>
 
-      <Link href="/cadastro" asChild>
+      <Link href="/entrar" asChild>
         <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>CADASTRE-SE</Text>
+          <Text style={styles.buttonText}>ENTRAR</Text>
         </Pressable>
       </Link>
     </View>

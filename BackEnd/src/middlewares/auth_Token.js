@@ -14,7 +14,7 @@ const authenticate = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET) // Verifique se a chave secreta é a mesma que você usou ao gerar o token
 
     // Verifica se o token está no banco de dados
-    const usuario = await prisma.aluno.findUnique({
+    const usuario = await prisma.user_Aluno.findUnique({
       where: decoded.email, // O email está no payload do token
     })
 
